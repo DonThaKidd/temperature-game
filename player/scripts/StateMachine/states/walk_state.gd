@@ -12,11 +12,21 @@ func _process(delta: float) -> void:
 		state_manager.change_state("JumpState")
 
 func _physics_process(delta: float) -> void:
-	if target.get_input_direction() != Vector2.ZERO:
-			target.velocity = target.velocity.move_toward(target.get_input_direction() * target.speed, target.acceleration * delta)
-			target.move_and_slide()
+	var input_dir: Vector2 = target.input_direction()
+	if input_dir != Vector2.ZERO:
+		accelerate(input_dir)
+		## play_animation()
 	
 	else:
-		## Decelerate to stop
-		target.velocity = target.velocity.move_toward(Vector2.ZERO, target.deceleration * delta)
+		decelerate() ## Decelerate to stop
 		state_manager.change_state("IdleState")
+	player_movement()
+
+func accelerate(direction):
+	target.velocity = target.velocity.move_toward(target.speed * direction, target.acc)
+
+func decelerate():
+	target.velocity = target.velocity.move_toward(Vector2.ZERO, target.deceleration)
+
+func player_movement():
+	target.move_and_slide()
