@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://h48d1yf8bpyp"]
+
+[ext_resource type="Script" path="res://player/scripts/StateMachine/finite_state_machine.gd" id="1_7vrhp"]
+[ext_resource type="Script" path="res://player/scripts/StateMachine/states/walk_state.gd" id="2_dacba"]
+[ext_resource type="Script" path="res://player/scripts/StateMachine/states/idle_state.gd" id="3_i5m04"]
+[ext_resource type="Script" path="res://player/scripts/StateMachine/states/jump_state.gd" id="4_bcs1f"]
+
+[node name="FiniteStateMachine" type="Node"]
+script = ExtResource("1_7vrhp")
+
+[node name="WalkState" type="Node" parent="."]
+script = ExtResource("2_dacba")
+
+[node name="IdleState" type="Node" parent="."]
+script = ExtResource("3_i5m04")
+
+[node name="JumpState" type="Node" parent="."]
+script = ExtResource("4_bcs1f")
