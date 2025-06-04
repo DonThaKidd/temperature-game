@@ -16,6 +16,12 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			jump()
+	
+	var direction = Input.get_axis("move_left", "move_right")
+	if direction:
+		velocity.x = direction * move_speed
+	else:
+		velocity.x = move_toward(velocity.x, 0, move_speed)
 
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity

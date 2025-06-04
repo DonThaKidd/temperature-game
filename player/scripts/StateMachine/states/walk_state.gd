@@ -23,11 +23,12 @@ func _physics_process(delta: float) -> void:
 	player_movement()
 
 func accelerate(direction):
-	var dir = Vector2(direction, 0)
-	target.velocity = target.velocity.move_toward(target.move_speed * dir, target.acc)
+	target.current_speed += target.acc
+	target.current_speed = clamp(target.current_speed, -target.max_speed, target.max_speed)
+	target.velocity.x = direction * target.current_speed
 
 func decelerate():
-	target.velocity = target.velocity.move_toward(Vector2.ZERO, target.decel)
+	target.velocity.x = move_toward(target.velocity.x, 0, target.decel)
 
 func player_movement():
 	target.move_and_slide()
