@@ -39,6 +39,8 @@ func _input(event: InputEvent) -> void:
 		damage_decrease()
 
 func get_grav() -> float:
+	print(fall_gravity)
+	print(jump_gravity)
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
 
 func jump():

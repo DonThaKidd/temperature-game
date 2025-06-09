@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cppybxc6paugv"]
+
+[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/charging_enemy.gd" id="1_p3i26"]
+[ext_resource type="Texture2D" uid="uid://bytcnx1gydkwp" path="res://icon.svg" id="2_xf5et"]
+[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/StateMachine/EFiniteStateMachine.gd" id="3_tpdyx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnjff"]
+size = Vector2(128, 129)
+
+[node name="ChargingEnemy" type="CharacterBody2D"]
+script = ExtResource("1_p3i26")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.792157, 0, 0, 1)
+texture = ExtResource("2_xf5et")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_mnjff")
+
+[node name="DirectionTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_tpdyx")
+
+[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
