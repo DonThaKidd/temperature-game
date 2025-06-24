@@ -31,6 +31,12 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("debug_damage_increase"):
+		damage_increase()
+	elif Input.is_action_just_pressed("debug_damage_decrease"):
+		damage_decrease()
+
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
 
@@ -55,17 +61,17 @@ func set_temp_bar():
 	$temp_bar.value = current_temp
 
 func damage_decrease():
+	print("decreasing")
 	current_temp -= 1
+	print(current_temp)
 	if current_temp <= min_temp:
 		current_temp = cool_temp
 	set_temp_bar()
-	
+
 func damage_increase():
+	print("increasing")
 	current_temp += 1
+	print(current_temp)
 	if current_temp >= max_temp:
 		current_temp = cool_temp
 	set_temp_bar()
-
-
-func _on_charging_enemy_player_hit() -> void:
-	damage_decrease() ## change for specific values of enemies

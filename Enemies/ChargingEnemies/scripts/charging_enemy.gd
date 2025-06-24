@@ -1,6 +1,11 @@
 extends CharacterBody2D
 
+signal player_hit
+
+
+
 const speed = 10
+const charge_speed = 300
 
 var  health = 3
 var health_max = 3
@@ -17,28 +22,31 @@ var knockback_force = 200
 var is_roaming : bool = true
 var is_enemy_chase : bool = false
 
+@onready var direction_timer : Timer = $TimerHandler/DirectionTimer
+@onready var charge_timer : Timer = $TimerHandler/ChargeTimer
+@onready var cooldown_timer: Timer = $TimerHandler/CooldownTimer
+@onready var sprite: FlippableSprite = $FlippableSprite
+
+@onready var player_detection: Area2D = $PlayerDetection
+
+var player_position
+var target_position
+@onready var Player: CharacterBody2D = $"../Player"
+
 
 func _process(delta: float) -> void:
+	update_flip()
+	
 	if !is_on_floor():
 		velocity.y += gravity * delta
 		velocity.x = 0
-	move(delta)
-	move_and_slide()
 
-func move(delta):
-	if !dead:
-		if !is_enemy_chase:
-			velocity += dir * speed * delta
-		is_roaming = true
-	elif dead:
-		velocity.x = 0
 
-func _on_direction_timer_timeout() -> void:
-	$DirectionTimer.wait_time = choose([1.5,2.0,2.5])
-	if !is_enemy_chase:
-		dir = choose([Vector2.LEFT, Vector2.RIGHT])
-		velocity.x = 0
+func _on_hurt_box_body_entered(body: Node2D) -> void:
+	player_hit.emit()
 
-func choose(array):
-	array.shuffle()
-	return array.front()
+func update_flip():
+	if dir.x > 0:
+		sprite.flipped = false
+	elif dir.x < 0:
+		sprite.flipped = true

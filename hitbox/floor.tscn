@@ -8,6 +8,8 @@ size = Vector2(1157, 89.7454)
 [node name="Floor" type="StaticBody2D"]
 position = Vector2(4, 424)
 scale = Vector2(1.66735, 1.0138)
+collision_layer = 4
+collision_mask = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(100, 0, 0, 1)

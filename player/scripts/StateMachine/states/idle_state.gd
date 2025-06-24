@@ -11,8 +11,7 @@ func _process(delta: float) -> void:
 		state_manager.change_state("WalkState")
 
 func _enter_state():
-	print("idle state entered")
 	pass ## any animations or such go here 
 
 func _exit_state():
-	print("idle state left")
+	pass

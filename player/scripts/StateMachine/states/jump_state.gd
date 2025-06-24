@@ -10,7 +10,6 @@ func _physics_process(delta: float) -> void:
 
 func _enter_state():
 	target.jump()
-	print("entered jump state")
 	
 func _exit_state():
-	print("exited jump state")
+	pass

@@ -1,14 +1,40 @@
 class_name EFiniteStateMachine
 extends Node
 
-@export var state : Estate
+var states : Dictionary = {}
+
+var current_state : Estate
+
+var target : Node
 
 func _ready() -> void:
-	change_state(state)
+	target = get_parent()
 	
+	for child in get_children():
+		if child is Estate:
+			states[child.name] = child
+			child.target = target
+			child.state_manager = self
+	
+	change_state("wander_state")
+	print(states)
 
-func change_state(new_state : Estate):
-	if state is Estate:
-		state._exit_state
-	new_state._enter_state()
-	state = new_state
+func change_state(new_state : String):
+	if current_state and current_state.name == new_state:
+		return
+	
+	if current_state:
+		current_state._exit_state()
+	
+	current_state = states.get(new_state)
+	if current_state:
+		current_state._enter_state()
+
+func _process(delta : float):
+	if current_state:
+		current_state._process(delta)
+
+func _physics_process(delta: float) -> void:
+	if current_state:
+		current_state._physics_process(delta)
+	

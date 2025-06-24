@@ -1,27 +1,86 @@
-[gd_scene load_steps=5 format=3 uid="uid://cppybxc6paugv"]
+[gd_scene load_steps=13 format=3 uid="uid://cppybxc6paugv"]
 
 [ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/charging_enemy.gd" id="1_p3i26"]
+[ext_resource type="PackedScene" uid="uid://c34ltrgkjeygj" path="res://hitbox/flippable_sprite.tscn" id="2_hs88r"]
 [ext_resource type="Texture2D" uid="uid://bytcnx1gydkwp" path="res://icon.svg" id="2_xf5et"]
 [ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/StateMachine/EFiniteStateMachine.gd" id="3_tpdyx"]
+[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/StateMachine/wander_state.gd" id="4_yywr5"]
+[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/StateMachine/charging_state.gd" id="5_0utl2"]
+[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/StateMachine/cooldown_state.gd" id="6_gfw3g"]
+[ext_resource type="PackedScene" uid="uid://b0rt24v7v2inr" path="res://hitbox/flippable_shape.tscn" id="7_34f4u"]
+[ext_resource type="PackedScene" uid="uid://dhqjdeo58ev7m" path="res://hitbox/hit_box_component.tscn" id="7_ctvp8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnjff"]
 size = Vector2(128, 129)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5w2lu"]
+radius = 372.344
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ottvt"]
+size = Vector2(21, 96)
+
 [node name="ChargingEnemy" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_p3i26")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.792157, 0, 0, 1)
+[node name="FlippableSprite" parent="." instance=ExtResource("2_hs88r")]
+modulate = Color(0.754675, 0.0381774, 0.021232, 1)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_xf5et")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 0.5)
+scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_mnjff")
-
-[node name="DirectionTimer" type="Timer" parent="."]
-autostart = true
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_tpdyx")
 
-[connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
+[node name="wander_state" type="Node" parent="StateMachine"]
+script = ExtResource("4_yywr5")
+
+[node name="charging_state" type="Node" parent="StateMachine"]
+script = ExtResource("5_0utl2")
+
+[node name="cooldown_state" type="Node" parent="StateMachine"]
+script = ExtResource("6_gfw3g")
+
+[node name="TimerHandler" type="Node" parent="."]
+
+[node name="DirectionTimer" type="Timer" parent="TimerHandler"]
+autostart = true
+
+[node name="ChargeTimer" type="Timer" parent="TimerHandler"]
+wait_time = 2.0
+
+[node name="CooldownTimer" type="Timer" parent="TimerHandler"]
+wait_time = 5.0
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_5w2lu")
+debug_color = Color(0.99803, 0, 0.152236, 0.42)
+
+[node name="HitBox_Component" parent="." node_paths=PackedStringArray("flippable_sprite") instance=ExtResource("7_ctvp8")]
+flippable_sprite = NodePath("../FlippableSprite")
+
+[node name="FlippableShape" parent="HitBox_Component" instance=ExtResource("7_34f4u")]
+position = Vector2(-38.8333, 0)
+shape = SubResource("RectangleShape2D_ottvt")
+debug_color = Color(0, 0.647401, 0.212072, 0.42)
+default_position = Vector2(-38.833, 0)
+
+[connection signal="timeout" from="TimerHandler/DirectionTimer" to="." method="_on_direction_timer_timeout"]
+[connection signal="timeout" from="TimerHandler/DirectionTimer" to="StateMachine/wander_state" method="_on_direction_timer_timeout"]
+[connection signal="timeout" from="TimerHandler/ChargeTimer" to="StateMachine/charging_state" method="_on_charge_timer_timeout"]
+[connection signal="timeout" from="TimerHandler/CooldownTimer" to="StateMachine/cooldown_state" method="_on_cooldown_timer_timeout"]
+[connection signal="area_entered" from="PlayerDetection" to="StateMachine/wander_state" method="_on_player_detection_area_entered"]
+[connection signal="body_entered" from="PlayerDetection" to="StateMachine/wander_state" method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="StateMachine/charging_state" method="_on_player_detection_body_exited"]
