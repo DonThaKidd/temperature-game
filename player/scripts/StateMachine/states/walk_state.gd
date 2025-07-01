@@ -12,6 +12,7 @@ func _process(delta: float) -> void:
 		state_manager.change_state("JumpState")
 
 func _physics_process(delta: float) -> void:
+	target.velocity.y += target.get_grav() * delta
 	target.velocity.x = target.get_horizontal_velocity() * target.move_speed
 	
 	var direction = Input.get_axis("left", "right")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://l21g6judfj6r"]
+[gd_scene load_steps=11 format=3 uid="uid://l21g6judfj6r"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_ce58s"]
 [ext_resource type="Texture2D" uid="uid://bytcnx1gydkwp" path="res://icon.svg" id="1_fualo"]
@@ -6,9 +6,14 @@
 [ext_resource type="Script" path="res://player/scripts/StateMachine/states/walk_state.gd" id="4_ld0dd"]
 [ext_resource type="Script" path="res://player/scripts/StateMachine/states/idle_state.gd" id="5_76psa"]
 [ext_resource type="Script" path="res://player/scripts/StateMachine/states/jump_state.gd" id="6_r01w1"]
+[ext_resource type="Script" path="res://player/scripts/StateMachine/states/slam_state.gd" id="7_g2l6t"]
+[ext_resource type="PackedScene" uid="uid://dhqjdeo58ev7m" path="res://hitbox/hit_box_component.tscn" id="8_e1keo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44ux1"]
 size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qe236"]
+size = Vector2(96, 20)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.75, 0.75)
@@ -27,6 +32,7 @@ texture = ExtResource("1_fualo")
 scale = Vector2(0.75, 0.75)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_44ux1")
 
@@ -40,6 +46,9 @@ script = ExtResource("5_76psa")
 
 [node name="jump_state" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("6_r01w1")
+
+[node name="slam_state" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("7_g2l6t")
 
 [node name="temp_label" type="Label" parent="."]
 offset_left = -570.0
@@ -59,3 +68,12 @@ max_value = 37.0
 fill_mode = 1
 show_percentage = false
 metadata/_edit_use_anchors_ = true
+
+[node name="slam_hitbox" parent="." instance=ExtResource("8_e1keo")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="slam_hitbox"]
+position = Vector2(0, 45.3333)
+shape = SubResource("RectangleShape2D_qe236")
+debug_color = Color(0.988671, 0, 0.299344, 0.42)
+
+[connection signal="body_entered" from="slam_hitbox" to="FiniteStateMachine/slam_state" method="_on_slam_hitbox_body_entered"]

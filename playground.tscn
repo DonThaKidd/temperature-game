@@ -6,16 +6,22 @@
 
 [node name="Playground" type="Node2D"]
 
-[node name="Floor" parent="." instance=ExtResource("1_2n23f")]
+[node name="Statics" type="Node" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("2_kpqlw")]
-position = Vector2(160, 928)
+[node name="Floor" parent="Statics" instance=ExtResource("1_2n23f")]
 
-[node name="Floor2" parent="." instance=ExtResource("1_2n23f")]
+[node name="Floor2" parent="Statics" instance=ExtResource("1_2n23f")]
 position = Vector2(774, 349)
 scale = Vector2(1, 1)
 
+[node name="Floor3" parent="Statics" instance=ExtResource("1_2n23f")]
+position = Vector2(654, -838)
+rotation = 1.5708
+
 [node name="ChargingEnemy" parent="." instance=ExtResource("3_5ujmh")]
 position = Vector2(928, 845)
+
+[node name="Player" parent="." instance=ExtResource("2_kpqlw")]
+position = Vector2(160, 928)
 
 [connection signal="player_hit" from="ChargingEnemy" to="Player" method="_on_charging_enemy_player_hit"]
