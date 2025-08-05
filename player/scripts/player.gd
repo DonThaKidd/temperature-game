@@ -75,4 +75,5 @@ func damage_increase():
 
 
 func _on_charging_enemy_player_hit() -> void:
+	print("player hit!")
 	damage_decrease() ## change for specific values of enemies

@@ -41,12 +41,13 @@ func _process(delta: float) -> void:
 		velocity.y += gravity * delta
 		velocity.x = 0
 
-
-func _on_hurt_box_body_entered(body: Node2D) -> void:
-	player_hit.emit()
-
 func update_flip():
 	if dir.x > 0:
 		sprite.flipped = false
 	elif dir.x < 0:
 		sprite.flipped = true
+
+
+func _on_hit_box_component_body_entered(body: Node2D) -> void:
+	print("player!")
+	player_hit.emit()

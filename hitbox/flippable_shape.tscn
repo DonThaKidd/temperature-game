@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b0rt24v7v2inr"]
 
-[ext_resource type="Script" path="res://hitbox/flippable_shape.gd" id="1_ssrfd"]
+[ext_resource type="Script" uid="uid://cjd7kwayix27m" path="res://hitbox/flippable_shape.gd" id="1_ssrfd"]
 
 [node name="FlippableShape" type="CollisionShape2D"]
 position = Vector2(-38.3333, 0)

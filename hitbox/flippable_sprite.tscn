@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c34ltrgkjeygj"]
 
-[ext_resource type="Script" path="res://Enemies/ChargingEnemies/scripts/flippable_sprite.gd" id="2_nqn6d"]
+[ext_resource type="Script" uid="uid://ccxbk18mrabk4" path="res://Enemies/ChargingEnemies/scripts/flippable_sprite.gd" id="2_nqn6d"]
 
 [node name="FlippableSprite" type="Sprite2D"]
 script = ExtResource("2_nqn6d")
