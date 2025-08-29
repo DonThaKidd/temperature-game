@@ -14,7 +14,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if target.is_on_floor():
 		state_manager.change_state("IdleState")
-		target.slam_hitbox.monitoring = true
 
 
 func _on_slam_hitbox_body_entered(body: Node2D) -> void:

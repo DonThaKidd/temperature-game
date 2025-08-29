@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 signal player_hit
 
-
-
 const speed = 10
 const charge_speed = 300
 
@@ -48,6 +46,5 @@ func update_flip():
 		sprite.flipped = true
 
 
-func _on_hit_box_component_body_entered(body: Node2D) -> void:
-	print("player!")
+func _on_charging_state_player_hit() -> void:
 	player_hit.emit()

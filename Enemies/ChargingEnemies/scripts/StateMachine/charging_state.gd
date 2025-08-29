@@ -1,6 +1,8 @@
 class_name EnemyCharge
 extends Estate
 
+signal player_hit
+
 func _enter_state() -> void:
 	on_charge()
 
@@ -33,3 +35,10 @@ func _on_charge_timer_timeout() -> void:
 	target.charge_timer.stop()
 	
 	state_manager.change_state("cooldown_state")
+
+
+func _on_hit_box_component_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		print("player hit!")
+		player_hit.emit()
+		

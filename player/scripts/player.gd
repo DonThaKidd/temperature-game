@@ -17,8 +17,6 @@ var current_temp : int = 10
 @export var jump_time_to_descent : float = 0.35
 @export var jump_time_to_slam : float = 0.01
 
-@onready var slam_hitbox: HitboxComponent = $slam_hitbox
-
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 @onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 @onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
@@ -28,7 +26,8 @@ func _ready() -> void:
 	set_temp()
 	$temp_bar.max_value = max_temp
 	set_temp_bar()
-	slam_hitbox.monitoring = false
+
+	
 
 func _physics_process(delta):
 	set_temp()
@@ -38,9 +37,6 @@ func _physics_process(delta):
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
 
-func slam():
-	velocity.y = slam_gravity
-	slam_hitbox.monitoring = true
 
 func jump():
 	velocity.y = jump_velocity
@@ -75,5 +71,4 @@ func damage_increase():
 
 
 func _on_charging_enemy_player_hit() -> void:
-	print("player hit!")
-	damage_decrease() ## change for specific values of enemies
+	damage_decrease()
