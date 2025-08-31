@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://by24pi18w6kqb"]
+
+[ext_resource type="Script" uid="uid://c4xlf1pgtw7gi" path="res://player/Cores/Fireball/fireball.gd" id="1_nggwr"]
+[ext_resource type="Texture2D" uid="uid://bovbyr7t73ffm" path="res://player/Cores/Fireball/fireball_10.png" id="2_fl2yl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lj8tb"]
+radius = 21.095
+
+[node name="Fireball" type="CharacterBody2D"]
+script = ExtResource("1_nggwr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(36, -2)
+texture = ExtResource("2_fl2yl")
+hframes = 2
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.0602412
+shape = SubResource("CircleShape2D_lj8tb")

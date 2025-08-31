@@ -11,7 +11,7 @@ var health_min = 0
 
 var dead : bool = false
 var taking_damage : bool = false
-var damage_to_deal = 5
+var damage_to_deal = 15
 var is_dealing_damage : bool = false
 
 var dir : Vector2
@@ -32,6 +32,7 @@ var target_position
 @onready var Player: CharacterBody2D = $"../Player"
 
 
+
 func _process(delta: float) -> void:
 	update_flip()
 	
@@ -48,3 +49,4 @@ func update_flip():
 
 func _on_charging_state_player_hit() -> void:
 	player_hit.emit()
+	Player.damage_increase(damage_to_deal)

@@ -5,6 +5,9 @@ const max_temp := 37
 const min_temp := -17
 var current_temp : int = 10
 
+@onready var main = get_tree().get_root().get_node("Playground")
+@onready var fireballCore = load("res://player/Cores/Fireball/Fireball.tscn")
+
 @export var max_speed : float = 200.0
 @export var current_speed : float = 0.0
 
@@ -26,13 +29,12 @@ func _ready() -> void:
 	set_temp()
 	$temp_bar.max_value = max_temp
 	set_temp_bar()
-
-	
+	print(main)
 
 func _physics_process(delta):
 	set_temp()
-	
 	move_and_slide()
+	fireball_core()
 
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
@@ -57,18 +59,23 @@ func set_temp():
 func set_temp_bar():
 	$temp_bar.value = current_temp
 
-func damage_decrease():
-	current_temp -= 1
+func damage_decrease(dmg):
+	current_temp -= dmg
 	if current_temp <= min_temp:
-		current_temp = cool_temp
+		hide()
 	set_temp_bar()
 	
-func damage_increase():
-	current_temp += 1
+func damage_increase(dmg):
+	current_temp += dmg
 	if current_temp >= max_temp:
-		current_temp = cool_temp
+		hide()
 	set_temp_bar()
 
-
-func _on_charging_enemy_player_hit() -> void:
-	damage_decrease()
+func fireball_core():
+	if Input.is_action_just_pressed("right_core_key"):
+		print("fireball!")
+		var instance = fireballCore.instantiate()
+		instance.dir = rotation
+		instance.spawnPos = global_position
+		instance.spawnRot = global_rotation
+		main.add_child.call_deferred("fireball", instance)
