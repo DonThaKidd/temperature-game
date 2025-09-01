@@ -20,7 +20,7 @@ radius = 372.344
 size = Vector2(104, 74.6667)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fds7v"]
-size = Vector2(96, 96)
+size = Vector2(101.333, 96)
 
 [node name="ChargingEnemy" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(0.75, 0.75)

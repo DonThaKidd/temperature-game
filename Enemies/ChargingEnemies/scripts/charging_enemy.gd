@@ -47,4 +47,8 @@ func _on_charging_state_player_hit() -> void:
 
 
 func _on_fireball_enemy_hit() -> void:
-	print("signal connected")
+	self.queue_free()
+
+
+func _on_hurtbox_component_body_entered(body: Node2D) -> void:
+	print("hurtbox entered!")
