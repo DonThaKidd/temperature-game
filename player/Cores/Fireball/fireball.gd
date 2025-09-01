@@ -1,5 +1,5 @@
 class_name Fireball
-extends CharacterBody2D
+extends Area2D
 
 @export var fireball_speed : int = 1000
 
@@ -11,6 +11,5 @@ func ready() -> void:
 	global_position = spawnPos
 	global_rotation = spawnRot
 
-func _physics_process(delta: float) -> void:
-	velocity = Vector2(fireball_speed, 0).rotated(dir)
-	move_and_slide()
+func _process(delta: float) -> void:
+	position += transform.x * (fireball_speed * delta)

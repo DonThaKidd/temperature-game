@@ -5,8 +5,7 @@ const max_temp := 37
 const min_temp := -17
 var current_temp : int = 10
 
-@onready var main = get_tree().get_root().get_node("Playground")
-@onready var fireballCore = load("res://player/Cores/Fireball/Fireball.tscn")
+@export var fireball : PackedScene
 
 @export var max_speed : float = 200.0
 @export var current_speed : float = 0.0
@@ -29,12 +28,12 @@ func _ready() -> void:
 	set_temp()
 	$temp_bar.max_value = max_temp
 	set_temp_bar()
-	print(main)
 
 func _physics_process(delta):
 	set_temp()
 	move_and_slide()
-	fireball_core()
+	if Input.is_action_just_pressed("right_core_key"):
+		fireball_core()
 
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
@@ -49,8 +48,7 @@ func get_horizontal_velocity() -> float:
 	if Input.is_action_pressed("move_left"):
 		horizontal -= 1.0
 	if Input.is_action_pressed("move_right"):
-		horizontal += 1.0
-	
+		horizontal += 1.0	
 	return horizontal
 
 func set_temp():
@@ -72,10 +70,12 @@ func damage_increase(dmg):
 	set_temp_bar()
 
 func fireball_core():
-	if Input.is_action_just_pressed("right_core_key"):
-		print("fireball!")
-		var instance = fireballCore.instantiate()
-		instance.dir = rotation
-		instance.spawnPos = global_position
-		instance.spawnRot = global_rotation
-		main.add_child.call_deferred("fireball", instance)
+	var newFireball = fireball.instantiate() as Node2D
+	get_tree().current_scene.add_child(newFireball)
+	newFireball.global_position = global_position
+	newFireball.rotation = rotation
+	
+	if velocity.x > 0:
+		newFireball.rotation = 0
+	elif velocity.x < 0:
+		newFireball.rotation = 180

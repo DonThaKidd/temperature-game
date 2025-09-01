@@ -60,3 +60,6 @@ max_value = 37.0
 fill_mode = 1
 show_percentage = false
 metadata/_edit_use_anchors_ = true
+
+[node name="fireball_pos" type="Node2D" parent="."]
+position = Vector2(68, 0)

@@ -7,7 +7,6 @@
 radius = 21.095
 
 [node name="Fireball" type="Area2D"]
-rotation = 3.14159
 script = ExtResource("1_nggwr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
