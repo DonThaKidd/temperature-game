@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://h48d1yf8bpyp"]
+[gd_scene load_steps=5 format=3 uid="uid://h48d1yf8bpyp"]
 
 [ext_resource type="Script" uid="uid://dkacm2jmtsq34" path="res://player/scripts/StateMachine/finite_state_machine.gd" id="1_7vrhp"]
 [ext_resource type="Script" uid="uid://dtxijnnum043h" path="res://player/scripts/StateMachine/states/walk_state.gd" id="2_dacba"]
 [ext_resource type="Script" uid="uid://6s5jd4jeepd5" path="res://player/scripts/StateMachine/states/idle_state.gd" id="3_i5m04"]
 [ext_resource type="Script" uid="uid://sqsbwgt6tqjm" path="res://player/scripts/StateMachine/states/jump_state.gd" id="4_bcs1f"]
-[ext_resource type="Script" uid="uid://c7hinfdhodnj" path="res://player/scripts/StateMachine/states/slam_state.gd" id="5_6enws"]
 
 [node name="FiniteStateMachine" type="Node"]
 script = ExtResource("1_7vrhp")
@@ -17,6 +16,3 @@ script = ExtResource("3_i5m04")
 
 [node name="JumpState" type="Node" parent="."]
 script = ExtResource("4_bcs1f")
-
-[node name="SlamState" type="Node" parent="."]
-script = ExtResource("5_6enws")

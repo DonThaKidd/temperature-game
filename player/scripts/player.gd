@@ -73,7 +73,6 @@ func fireball_core():
 	var newFireball = fireball.instantiate() as Node2D
 	get_tree().current_scene.add_child(newFireball)
 	newFireball.global_position = global_position
-	newFireball.rotation = rotation
 	
 	if velocity.x > 0:
 		newFireball.rotation = 0

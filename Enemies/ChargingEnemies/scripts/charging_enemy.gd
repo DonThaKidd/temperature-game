@@ -23,7 +23,6 @@ var is_enemy_chase : bool = false
 @onready var direction_timer : Timer = $TimerHandler/DirectionTimer
 @onready var charge_timer : Timer = $TimerHandler/ChargeTimer
 @onready var cooldown_timer: Timer = $TimerHandler/CooldownTimer
-@onready var sprite: FlippableSprite = $FlippableSprite
 
 @onready var player_detection: Area2D = $PlayerDetection
 
@@ -34,19 +33,18 @@ var target_position
 
 
 func _process(delta: float) -> void:
-	update_flip()
+	pass
 	
 	if !is_on_floor():
 		velocity.y += gravity * delta
 		velocity.x = 0
 
-func update_flip():
-	if dir.x > 0:
-		sprite.flipped = false
-	elif dir.x < 0:
-		sprite.flipped = true
 
 
 func _on_charging_state_player_hit() -> void:
 	player_hit.emit()
 	Player.damage_increase(damage_to_deal)
+
+
+func _on_fireball_enemy_hit() -> void:
+	print("signal connected")

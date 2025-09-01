@@ -14,7 +14,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	target.velocity.y += target.get_grav() * delta
 	target.velocity.x = target.get_horizontal_velocity() * target.move_speed
-	print(target.velocity.x)
 	
 	var direction = Input.get_axis("left", "right")
 	if direction:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cppybxc6paugv"]
+[gd_scene load_steps=14 format=3 uid="uid://cppybxc6paugv"]
 
 [ext_resource type="Script" uid="uid://btty7b5gfqlyv" path="res://Enemies/ChargingEnemies/scripts/charging_enemy.gd" id="1_p3i26"]
 [ext_resource type="PackedScene" uid="uid://c34ltrgkjeygj" path="res://hitbox/flippable_sprite.tscn" id="2_hs88r"]
@@ -18,6 +18,9 @@ radius = 372.344
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ottvt"]
 size = Vector2(104, 74.6667)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fds7v"]
+size = Vector2(96, 96)
 
 [node name="ChargingEnemy" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(0.75, 0.75)
@@ -65,18 +68,26 @@ collision_layer = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+visible = false
 shape = SubResource("CircleShape2D_5w2lu")
 debug_color = Color(0.99803, 0, 0.152236, 0.42)
 
-[node name="HitBox_Component" parent="." instance=ExtResource("7_ctvp8")]
+[node name="HitboxComponent" parent="." instance=ExtResource("7_ctvp8")]
 position = Vector2(-2, 0)
 collision_layer = 2
 monitorable = true
 
-[node name="FlippableShape" parent="HitBox_Component" instance=ExtResource("7_34f4u")]
+[node name="FlippableShape" parent="HitboxComponent" instance=ExtResource("7_34f4u")]
 position = Vector2(2, 1.33334)
 shape = SubResource("RectangleShape2D_ottvt")
 debug_color = Color(0, 0.647401, 0.212072, 0.42)
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("RectangleShape2D_fds7v")
 
 [connection signal="player_hit" from="StateMachine/charging_state" to="." method="_on_charging_state_player_hit"]
 [connection signal="timeout" from="TimerHandler/DirectionTimer" to="." method="_on_direction_timer_timeout"]
@@ -86,4 +97,5 @@ debug_color = Color(0, 0.647401, 0.212072, 0.42)
 [connection signal="area_entered" from="PlayerDetection" to="StateMachine/wander_state" method="_on_player_detection_area_entered"]
 [connection signal="body_entered" from="PlayerDetection" to="StateMachine/wander_state" method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="PlayerDetection" to="StateMachine/charging_state" method="_on_player_detection_body_exited"]
-[connection signal="body_entered" from="HitBox_Component" to="StateMachine/charging_state" method="_on_hit_box_component_body_entered"]
+[connection signal="body_entered" from="HitboxComponent" to="StateMachine/charging_state" method="_on_hit_box_component_body_entered"]
+[connection signal="body_entered" from="HurtboxComponent" to="." method="_on_hurtbox_component_body_entered"]

@@ -31,6 +31,9 @@ visible = false
 scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_44ux1")
 
+[node name="fireball_pos" type="Node2D" parent="."]
+position = Vector2(68, 0)
+
 [node name="FiniteStateMachine" parent="." instance=ExtResource("3_i2o0p")]
 
 [node name="walk_state" type="Node" parent="FiniteStateMachine"]
@@ -60,6 +63,3 @@ max_value = 37.0
 fill_mode = 1
 show_percentage = false
 metadata/_edit_use_anchors_ = true
-
-[node name="fireball_pos" type="Node2D" parent="."]
-position = Vector2(68, 0)
