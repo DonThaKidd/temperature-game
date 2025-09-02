@@ -6,6 +6,7 @@ const min_temp := -17
 var current_temp : int = 10
 
 @export var fireball : PackedScene
+var fireball_damage : int = 9
 
 @export var max_speed : float = 200.0
 @export var current_speed : float = 0.0
@@ -26,7 +27,7 @@ var current_temp : int = 10
 
 func _ready() -> void:
 	set_temp()
-	$temp_bar.max_value = max_temp
+	$Camera2D/temp_bar.max_value = max_temp
 	set_temp_bar()
 
 func _physics_process(delta):
@@ -34,6 +35,7 @@ func _physics_process(delta):
 	move_and_slide()
 	if Input.is_action_just_pressed("right_core_key"):
 		fireball_core()
+		damage_increase(fireball_damage)
 
 func get_grav() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
@@ -52,10 +54,10 @@ func get_horizontal_velocity() -> float:
 	return horizontal
 
 func set_temp():
-	$temp_label.text = "temp : %s°C" % current_temp
+	$Camera2D/temp_label.text = "temp : %s°C" % current_temp
 
 func set_temp_bar():
-	$temp_bar.value = current_temp
+	$Camera2D/temp_bar.value = current_temp
 
 func damage_decrease(dmg):
 	current_temp -= dmg

@@ -4,10 +4,14 @@ signal player_hit
 
 const speed = 10
 const charge_speed = 300
+@export var enemy_type : bool
 
-var  health = 3
-var health_max = 3
+var health = 18
+var health_max = 18
 var health_min = 0
+
+var knockback : Vector2 = Vector2.ZERO
+var knockback_timer : float = 0.0
 
 var dead : bool = false
 var taking_damage : bool = false
@@ -31,24 +35,42 @@ var target_position
 @onready var Player: CharacterBody2D = $"../Player"
 
 
+func _ready() -> void:
+	set_temp()
 
 func _process(delta: float) -> void:
-	pass
 	
 	if !is_on_floor():
 		velocity.y += gravity * delta
 		velocity.x = 0
 
-
+func _physics_process(delta: float) -> void:
+	if knockback_timer > 0.0:
+		velocity = knockback
+		knockback_timer -= delta
+		if knockback_timer <= 0.0:
+			knockback = Vector2.ZERO
+	
+	move_and_slide()
 
 func _on_charging_state_player_hit() -> void:
 	player_hit.emit()
 	Player.damage_increase(damage_to_deal)
 
 
-func _on_fireball_enemy_hit() -> void:
-	self.queue_free()
-
-
 func _on_hurtbox_component_body_entered(body: Node2D) -> void:
-	print("hurtbox entered!")
+	if body.is_in_group("fireball"): 
+		if health <= health_max:
+			health = health - Player.fireball_damage
+			set_temp()
+			var knockback_direction = (body.global_position - global_position).normalized()
+			apply_knockback(knockback_direction, -100.0, 0.12)
+	if health <= health_min:
+		self.queue_free()
+
+func set_temp():
+	$Label.text = "temp : %s°C" % health
+
+func apply_knockback(direction: Vector2, force : float, knockback_duration : float):
+	knockback = direction * force
+	knockback_timer = knockback_duration

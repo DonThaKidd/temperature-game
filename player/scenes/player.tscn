@@ -7,8 +7,8 @@
 [ext_resource type="Script" uid="uid://6s5jd4jeepd5" path="res://player/scripts/StateMachine/states/idle_state.gd" id="5_76psa"]
 [ext_resource type="Script" uid="uid://sqsbwgt6tqjm" path="res://player/scripts/StateMachine/states/jump_state.gd" id="6_r01w1"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_44ux1"]
-size = Vector2(128, 128)
+[sub_resource type="CircleShape2D" id="CircleShape2D_tn8gd"]
+radius = 65.8018
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.75, 0.75)
@@ -24,12 +24,33 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("1_fualo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -160)
 scale = Vector2(0.75, 0.75)
 
+[node name="temp_label" type="Label" parent="Camera2D"]
+offset_left = -760.0
+offset_top = -424.0
+offset_right = -688.0
+offset_bottom = -401.0
+scale = Vector2(1.28445, 1.28444)
+text = "health : 0"
+metadata/_edit_use_anchors_ = true
+
+[node name="temp_bar" type="ProgressBar" parent="Camera2D"]
+offset_left = -638.667
+offset_top = -422.667
+offset_right = -304.667
+offset_bottom = -395.667
+scale = Vector2(1.28445, 1.28444)
+min_value = -17.0
+max_value = 37.0
+fill_mode = 1
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2(0.75, 0.75)
-shape = SubResource("RectangleShape2D_44ux1")
+shape = SubResource("CircleShape2D_tn8gd")
 
 [node name="fireball_pos" type="Node2D" parent="."]
 position = Vector2(68, 0)
@@ -44,22 +65,3 @@ script = ExtResource("5_76psa")
 
 [node name="jump_state" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("6_r01w1")
-
-[node name="temp_label" type="Label" parent="."]
-offset_left = -570.0
-offset_top = -318.0
-offset_right = -498.0
-offset_bottom = -295.0
-text = "health : 0"
-metadata/_edit_use_anchors_ = true
-
-[node name="temp_bar" type="ProgressBar" parent="."]
-offset_left = -479.0
-offset_top = -317.0
-offset_right = -145.0
-offset_bottom = -290.0
-min_value = -17.0
-max_value = 37.0
-fill_mode = 1
-show_percentage = false
-metadata/_edit_use_anchors_ = true
